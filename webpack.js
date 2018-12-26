@@ -1,18 +1,21 @@
 
 
 const path = require('path');
-// const webpack = require('webpack');
+const webpack = require('webpack');
 // const merge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+
 // const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const fs = require('fs');
 
 
 const srcPath = path.resolve(__dirname, 'src');
+
 const dir = {
   js: `${srcPath}/scripts`,
   style: `${srcPath}/styles`,
@@ -23,9 +26,11 @@ const dir = {
 
 module.exports = {
   entry: {
-    a: './src/scripts/a.js',
+    a: ['./src/scripts/a.js', './src/scripts/a2'],
     b: './src/scripts/b.js',
     index: './src/scripts/index.js',
+    vendor: ['jquery', 'dayjs'],
+    // vendor: [],
   },
   output: {
     filename: '[name].[chunkhash].js',
@@ -40,17 +45,21 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
-      chunks: ['index'],
+      chunks: ['index', 'vendor', 'manifest'],
     }),
     new HtmlWebpackPlugin({
       filename: 'a.html',
       template: './src/a.html',
-      chunks: ['a'],
+      chunks: ['a', 'vendor'],
     }),
     new HtmlWebpackPlugin({
       filename: 'b.html',
       template: './src/b.html',
-      chunks: ['b'],
+      chunks: ['b', 'vendor'],
+    }),
+    new CommonsChunkPlugin({
+      names: 'manifest',
+      minChunks: Infinity,
     }),
   ],
   stats: 'minimal',
