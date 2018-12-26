@@ -22,22 +22,33 @@ const dir = {
   imgs: `${srcPath}/images`,
   pages: `${srcPath}/pages`,
 };
-
+const commonChunks = ['manifest', 'common', 'vendor'];
 
 module.exports = {
   entry: {
     a: ['./src/scripts/a.js', './src/scripts/a2'],
     b: './src/scripts/b.js',
     index: './src/scripts/index.js',
-    vendor: ['jquery', 'dayjs'],
-    // vendor: [],
+    // vendor: ['jquery', 'dayjs'],
+    vendor: ['jquery'],
+    // vendor: ['common', 'manifest'],
   },
   output: {
     filename: '[name].[chunkhash].js',
     path: path.resolve(__dirname, 'dist'),
   },
 
+
   plugins: [
+    new CommonsChunkPlugin({
+      names: 'manifest',
+      minChunks: Infinity,
+    }),
+    new CommonsChunkPlugin({
+      names: 'common',
+      minChunks: 2,
+    }),
+
     new CleanWebpackPlugin(['dist']),
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
@@ -45,22 +56,19 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
-      chunks: ['index', 'vendor', 'manifest'],
+      chunks: ['index', ...commonChunks],
     }),
     new HtmlWebpackPlugin({
       filename: 'a.html',
       template: './src/a.html',
-      chunks: ['a', 'vendor'],
+      chunks: ['a', ...commonChunks],
     }),
     new HtmlWebpackPlugin({
       filename: 'b.html',
       template: './src/b.html',
-      chunks: ['b', 'vendor'],
+      chunks: ['b', ...commonChunks],
     }),
-    new CommonsChunkPlugin({
-      names: 'manifest',
-      minChunks: Infinity,
-    }),
+
   ],
   stats: 'minimal',
   module: {
