@@ -22,7 +22,8 @@ const dir = {
   imgs: `${srcPath}/images`,
   pages: `${srcPath}/pages`,
 };
-const commonChunks = ['manifest', 'common', 'vendor'];
+// const commonChunks = ['common', 'vendor'];
+const commonChunks = ['manifest', 'sang', 'vendor'];
 
 module.exports = {
   entry: {
@@ -41,18 +42,20 @@ module.exports = {
 
   plugins: [
     new CommonsChunkPlugin({
-      names: 'manifest',
-      minChunks: Infinity,
+      name: 'sang',
+      minChunks: 3,
     }),
     new CommonsChunkPlugin({
-      names: 'common',
-      minChunks: 2,
+      names: 'manifest',
+      minChunks: Infinity,
     }),
 
     new CleanWebpackPlugin(['dist']),
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
     }),
+
+
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
@@ -75,6 +78,7 @@ module.exports = {
     rules: [
       {
         test: /\.scss$/,
+        // use: ['style-loader', 'css-loader', 'sass-loader'],
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: ['css-loader', 'sass-loader'],

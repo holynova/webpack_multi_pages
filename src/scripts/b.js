@@ -1,4 +1,4 @@
-import '../styles/common.scss';
+// import '../styles/common.scss';
 import '../styles/b.scss'
 ;
 import dayjs from 'dayjs';

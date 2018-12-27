@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import '../styles/common.scss';
+// import '../styles/common.scss';
 import '../styles/index.scss'
 ;
 
