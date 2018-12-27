@@ -53,7 +53,8 @@ module.exports = {
 
     new CleanWebpackPlugin(['dist']),
     new ExtractTextPlugin({
-      filename: '[name].[contenthash].css',
+      // filename: '[name].[contenthash].css',
+      filename: '[name].[contenthash:16].css',
       // filename: '[name].css',
     }),
 
@@ -100,6 +101,17 @@ module.exports = {
           loader: 'url-loader',
           options: {
             limit: 8192,
+            name: '[name].[hash:16].[ext]',
+          },
+        },
+      },
+      {
+        test: /\.(woff2|woff|ttf|eot)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 8192,
+            name: '[name].[hash:16].[ext]',
           },
         },
       },

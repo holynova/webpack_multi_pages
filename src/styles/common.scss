@@ -3,7 +3,14 @@
   padding: 0;
 }
 
-$size:3.1415px;
+$size:31.415px;
 h1 {
+  font-family: 'sang';
   font-size: $size;
+}
+
+@font-face {
+  font-family: 'sang';
+  font-style: 'normal';
+  src: url('../images/GT-America-Standard-Black-Italic.woff2');
 }
