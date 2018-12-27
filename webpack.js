@@ -36,6 +36,7 @@ module.exports = {
   },
   output: {
     filename: '[name].[chunkhash].js',
+    // filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
   },
 
@@ -53,6 +54,7 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
+      // filename: '[name].css',
     }),
 
 
